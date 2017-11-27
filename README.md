@@ -2,13 +2,13 @@
 
 Version:  1.0.0
 
-* **Author:** [Akash Soni] (http://akashsoni.com)
+* **Author:** [Akash Soni](http://akashsoni.com)
 
 * **Tags:** Library, Library Book Search, Library Book
 
 * **Stable Branch:** Master
 
-* **License:** [GPL v2 or later] (http://www.gnu.org/licenses/gpl-2.0.html)
+* **License:** [GPL v2 or later](http://www.gnu.org/licenses/gpl-2.0.html)
 
 ### Description ###
 
@@ -16,10 +16,10 @@ Version:  1.0.0
 
 You can display library book search facility on website.
 
-1 ) Enter book list in admin side. You can see book post in admin side.
-2 ) Create author abd publisher list in taxonomy.
-3 ) Assigned author and publisher name in book.
-4 ) Use this short-code " [library-book-search] " for show search facility on page/post
+1. Enter book list in admin side. You can see book post in admin side.
+2. Create author abd publisher list in taxonomy.
+3. Assigned author and publisher name in book.
+4. Use this short-code " [library-book-search] " for show search facility on page/post
 
 ### Installation ###
 
