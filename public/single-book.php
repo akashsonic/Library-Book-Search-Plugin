@@ -15,7 +15,7 @@ get_header(); ?>
 		<?php
 		while ( have_posts() ) {
 			the_post();
-			$book_id = get_the_ID();
+			$book_id     = get_the_ID();
 			$book_price  = get_post_meta( $book_id, '_book_price', true );
 			$book_rating = get_post_meta( $book_id, '_book_rating', true );
 			$author      = wp_get_post_terms( $book_id, 'author', array( 'fields' => 'names' ) );
@@ -33,7 +33,10 @@ get_header(); ?>
 					<header class="book-header">
 						<h1 class="book-title"><?php echo get_the_title(); ?></h1>
 						<ul class="book-meta-details">
-							<li class="book-price"> <label> <?php echo esc_html( 'Price: ' ); ?> </label> <span> <?php echo esc_html( '$'.$book_price ); ?> </span> </li>
+							<li class="book-price">
+								<label> <?php echo esc_html( 'Price: ' ); ?> </label>
+								<span> <?php echo esc_html( '$' . $book_price ); ?> </span>
+							</li>
 							<li class="book-rating">
 								<div class="inner-rating">
 									<div class="star-rating">

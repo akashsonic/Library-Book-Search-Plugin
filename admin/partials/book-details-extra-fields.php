@@ -12,13 +12,13 @@
 $book_object = get_query_var( 'book_object' );
 
 // Get book price from post meta.
-$book_price  = get_post_meta( $book_object->ID, '_book_price', true );
+$book_price = get_post_meta( $book_object->ID, '_book_price', true );
 
 // Get book rating from post meta.
 $book_rating = get_post_meta( $book_object->ID, '_book_rating', true );
 
 $book_price  = ( $book_price ) ? $book_price : '0';
-$book_rating  = ( $book_rating ) ? $book_rating : '';
+$book_rating = ( $book_rating ) ? $book_rating : '';
 
 ?>
 <div class='inside'>

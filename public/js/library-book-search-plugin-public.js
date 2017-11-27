@@ -16,6 +16,8 @@
             var book_price = $( '.book-price' );
             var min_price = book_price.attr('min');
             var max_price = book_price.attr('max');
+            var _that = this;
+
             $( "#book-price" ).slider({
                 range:true,
                 min: 2,
@@ -27,13 +29,14 @@
                     book_price.attr('data-max',ui.values[1]);
                 }
             });
+
             $( document ).on('click', '.btn-book-search', function () {
-                booksObj.searchBtn();
+                _that.searchBtn();
             });
 
             $( document ).on('click', '.book-pagination .page-numbers', function () {
                 var page_link = $(this).attr( 'href' );
-                booksObj.paginationBook( page_link );
+                _that.paginationBook( page_link );
                 return false;
             });
         },
@@ -49,14 +52,14 @@
             var book_price_max = book_price.attr('data-max');
 
             var params = {
-                'security': 	'1234',
-                'book_title': 	book_name,
-                'author': 		book_author,
-                'publisher': 	book_publisher,
-                'rating': 		book_rating,
-                'price_min': 	book_price_min,
-                'price_max': 	book_price_max,
-                'paged':		book_page,
+                'security': '1234',
+                'book_title': book_name,
+                'author': book_author,
+                'publisher': book_publisher,
+                'rating': book_rating,
+                'price_min': book_price_min,
+                'price_max': book_price_max,
+                'paged': book_page,
             };
 
             // Ajax request to create account
@@ -74,12 +77,12 @@
 
         paginationBook: function ( page_link ) {
             var book_page = page_link.replace("http://", "");
-            booksObj.searchBook( book_page );
+            this.searchBook( book_page );
         },
 
         searchBtn: function () {
             $('.book-list').addClass('active');
-            booksObj.searchBook( 1 );
+            this.searchBook( 1 );
         }
 
     };

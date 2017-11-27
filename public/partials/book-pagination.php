@@ -13,7 +13,7 @@
 	<td colspan="6" class="book-pagination">
 		<?php
 		$big_range = 999999999;
-		$paginate = paginate_links(
+		$paginate  = paginate_links(
 			array(
 				'base'    => str_replace( $big_range, '%#%', '%#%' ),
 				'format'  => '%#%',

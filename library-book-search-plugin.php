@@ -1,12 +1,6 @@
 <?php
-
 /**
- * The plugin bootstrap file
- *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
+ * This is a demo plugin for book search functionality.
  *
  * @link              akashsoni.com
  * @since             1.0.0
@@ -15,7 +9,8 @@
  * @wordpress-plugin
  * Plugin Name:       Library Book Search Plugin
  * Plugin URI:        akashsoni.com
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       This is a demo plugin for book search functionality. You can search books in the different
+ *                    parameter like Book Name, Author, and price etc. using this plugin.
  * Version:           1.0.0
  * Author:            Akash Soni
  * Author URI:        akashsoni.com

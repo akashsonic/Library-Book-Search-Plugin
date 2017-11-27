@@ -9,7 +9,7 @@
  * @subpackage Library_Book_Search_Plugin/public/partials
  */
 
-$book_array   = get_query_var( 'book_array',
+$book_array  = get_query_var( 'book_array',
 	array(
 		'book_id' => 0,
 		'book_no' => 0,

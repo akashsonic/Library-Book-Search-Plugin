@@ -48,27 +48,36 @@ class Library_Book_Search_Plugin_Public {
 	 * @param string $version The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
+
 		Library_Book_Search_Plugin_Public::$plugin_name = $plugin_name;
 		Library_Book_Search_Plugin_Public::$version     = $version;
+
 		/**
 		 * Add action for load script and style files on front side.
 		 */
 		add_action( 'wp_enqueue_scripts', 'Library_Book_Search_Plugin_Public::enqueue_styles' );
+
 		add_action( 'wp_enqueue_scripts', 'Library_Book_Search_Plugin_Public::enqueue_scripts' );
+
 		/**
 		 * Add action ajax for get search data on front side.
 		 */
 		add_action( 'wp_ajax_search_book', 'Library_Book_Search_Plugin_Public::get_search_book_list' );
+
 		add_action( 'wp_ajax_nopriv_search_book', 'Library_Book_Search_Plugin_Public::get_search_book_list' );
+
 		/**
 		 * Add action for book detail update time delete cache data.
 		 */
 		add_action( 'save_post', 'Library_Book_Search_Plugin_Public::refresh_books_cache', 10, 1 );
+
 		add_action( 'delete_post', 'Library_Book_Search_Plugin_Public::refresh_books_cache', 10, 1 );
+
 		/**
 		 * Add Filter for show book detail on single page.
 		 */
 		add_filter( 'single_template', 'Library_Book_Search_Plugin_Public::single_book_template' );
+
 		/**
 		 * Add short-code for show book search facility on page/post.
 		 */
@@ -85,14 +94,22 @@ class Library_Book_Search_Plugin_Public {
 		/**
 		 * Load Front side css
 		 */
-		wp_enqueue_style( Library_Book_Search_Plugin_Public::$plugin_name, plugin_dir_url( __FILE__ ) . 'css/library-book-search-plugin-public.css',
-		array(), Library_Book_Search_Plugin_Public::$version, 'all' );
+		wp_enqueue_style(
+			Library_Book_Search_Plugin_Public::$plugin_name,
+			plugin_dir_url( __FILE__ ) . 'css/library-book-search-plugin-public.css',
+			array(),
+			Library_Book_Search_Plugin_Public::$version
+		);
 
 		/**
 		 * Load Front Side Jquery UI css
 		 */
-		wp_enqueue_style( Library_Book_Search_Plugin_Public::$plugin_name . '-ui', plugin_dir_url( __FILE__ ) . 'css/jquery-ui.css', array(),
-		Library_Book_Search_Plugin_Public::$version, 'all' );
+		wp_enqueue_style(
+			Library_Book_Search_Plugin_Public::$plugin_name . '-ui',
+			plugin_dir_url( __FILE__ ) . 'css/jquery-ui.css',
+			array(),
+			Library_Book_Search_Plugin_Public::$version
+		);
 	}
 
 	/**
@@ -106,12 +123,13 @@ class Library_Book_Search_Plugin_Public {
 		wp_enqueue_script( 'jquery-ui-slider' );
 
 		// Load Front side Plugin javascript.
-		wp_enqueue_script( Library_Book_Search_Plugin_Public::$plugin_name, plugin_dir_url( __FILE__ ) . 'js/library-book-search-plugin-public.js',
-		array( 'jquery', 'wp-util' ), Library_Book_Search_Plugin_Public::$version, true );
-
-		// Load Front side admin ajax link object.
-		wp_localize_script( 'jquery-ui-slider', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
-
+		wp_enqueue_script(
+			Library_Book_Search_Plugin_Public::$plugin_name,
+			plugin_dir_url( __FILE__ ) . 'js/library-book-search-plugin-public.js',
+			array( 'jquery', 'wp-util' ),
+			Library_Book_Search_Plugin_Public::$version,
+			true
+		);
 
 	}
 
@@ -126,8 +144,8 @@ class Library_Book_Search_Plugin_Public {
 		$book_lists  = Library_Book_Search_Plugin_Public::get_search_book_list( '', '', '', '', '', 1 );
 		$book_prices = Library_Book_Search_Plugin_Public::get_books_price();
 
-
 		set_query_var( 'book_search_data', $book_prices );
+
 		/**
 		 * Get book search HTML data.
 		 */
@@ -205,7 +223,7 @@ class Library_Book_Search_Plugin_Public {
 					'field'    => 'slug',
 					'terms'    => $publisher,
 				),
-			);
+			); // WPCS: slow query ok. Used wp object cache.
 		}
 
 		if ( $author ) {
@@ -215,7 +233,7 @@ class Library_Book_Search_Plugin_Public {
 					'field'    => 'slug',
 					'terms'    => $author,
 				),
-			);
+			); // WPCS: slow query ok. Used wp object cache.
 		}
 
 		if ( $price ) {
@@ -226,6 +244,7 @@ class Library_Book_Search_Plugin_Public {
 				'compare' => 'BETWEEN',
 			);
 		}
+
 		if ( $rating ) {
 			$book_parameters['meta_query'][] = array(
 				'key'     => '_book_rating',
@@ -234,11 +253,14 @@ class Library_Book_Search_Plugin_Public {
 				'compare' => '=',
 			);
 		}
+
 		$price_name = 'pricemin0pricemax0author';
 		if ( $price ) {
 			$price_name = "pricemin{$price[0]}pricemax{$price[1]}";
 		}
+
 		$book_cache_lists = "paged{$paged}rating{$rating}{$price_name}{$author}publisher{$publisher}title{$book_title}";
+
 		$book_lists = wp_cache_get( $book_cache_lists, 'lbs_book_lists' );
 
 		if ( ! $book_lists ) {
@@ -246,13 +268,14 @@ class Library_Book_Search_Plugin_Public {
 			$book_lists = new WP_Query( $book_parameters );
 
 			if ( ! is_wp_error( $book_lists ) && $book_lists->have_posts() ) {
-				// Cache the whole WP_Query object in the cache and store it for 5 minutes (300 secs).
+				// Cache the whole WP_Query object in the object cache and store it for 1 hour.
 				wp_cache_set( $book_cache_lists, $book_lists, 'lbs_book_lists', 60 * MINUTE_IN_SECONDS );
 			}
 		}
 
 		// Get book list HTML data.
 		ob_start();
+
 		if ( $book_lists->have_posts() ) {
 			while ( $book_lists->have_posts() ) {
 				$book_lists->the_post();
@@ -312,7 +335,7 @@ class Library_Book_Search_Plugin_Public {
 				'meta_key'       => '_book_price',
 				'meta_value'     => '0',
 				'meta_compare'   => '!=',
-			) );
+			) ); // WPCS: slow query ok. Used wp object cache.
 
 			$prices = array();
 			if ( $pricing_data->have_posts() ) {
@@ -326,6 +349,7 @@ class Library_Book_Search_Plugin_Public {
 
 			wp_cache_set( 'book_price', $prices, 'lbs_book_price', 60 * MINUTE_IN_SECONDS );
 		}
+
 		if ( count( $prices ) > 0 ) {
 			$metas = array(
 				'max_price' => max( $prices ),
@@ -349,6 +373,7 @@ class Library_Book_Search_Plugin_Public {
 	 * @link    https://10up.github.io/Engineering-Best-Practices/php/
 	 *
 	 * @since   1.0.0
+	 *
 	 * @param   int $post_id Post ID.
 	 */
 	public function refresh_books_cache( $post_id ) {
@@ -361,6 +386,7 @@ class Library_Book_Search_Plugin_Public {
 	 * Create the function for the return all price array.
 	 *
 	 * @since  1.0.0
+	 *
 	 * @param  string $single This is template name.
 	 *
 	 * @return string

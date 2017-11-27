@@ -29,16 +29,6 @@
 class Library_Book_Search_Plugin {
 
 	/**
-	 * The loader that's responsible for maintaining and registering all hooks that power
-	 * the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      Library_Book_Search_Plugin_Loader $loader Maintains and registers all hooks for the plugin.
-	 */
-	protected $loader;
-
-	/**
 	 * The unique identifier of this plugin.
 	 *
 	 * @since    1.0.0
